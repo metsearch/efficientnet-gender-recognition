@@ -23,7 +23,7 @@ def tensor2img(t, t_type = 'rgb'):
     invTrans = gray_transformations if t_type == "gray" else rgb_transformations 
     return (invTrans(t) * 255).detach().squeeze().cpu().permute(1,2,0).numpy().astype(np.uint8) if t_type == "gray" else (invTrans(t) * 255).detach().cpu().permute(1,2,0).numpy().astype(np.uint8)
 
-def display_images_with_predictions(path2metrics, images, predictions, num_images=12, num_images_per_row=4):    
+def display_images_with_predictions(path2metrics, images, predictions, num_images=25, num_images_per_row=5):    
     plt.figure(figsize = (20, 10))
     images_to_display_idxes = [random.randint(0, len(images) - 1) for _ in range(num_images)]
     for i, idx in enumerate(images_to_display_idxes):

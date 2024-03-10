@@ -1,4 +1,4 @@
-# EfficientNet_b0 for Gender Detection
+# Efficientnet for Gender Detection
 
 ## Overview
 

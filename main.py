@@ -54,7 +54,7 @@ def grabber(path2source, path2destination):
 @click.option('--path2models', help='Path to models', default='models/')
 @click.option('--path2metrics', help='Path to metrics', default='metrics/')
 @click.option('--bt_size', help='Batch size', default=64)
-@click.option('--num_epochs', help='Number of epochs', default=10)
+@click.option('--num_epochs', help='Number of epochs', default=5)
 def learn(path2data, path2models, bt_size, num_epochs, path2metrics):
     logger.debug('Training...')
     if not os.path.exists(path2models):
@@ -119,6 +119,7 @@ def learn(path2data, path2models, bt_size, num_epochs, path2metrics):
     
 @router_cmd.command()
 @click.option('--path2models', help='path to models', type=click.Path(True), default='models/')
+@click.option('--bt_size', help='Batch size', default=64)
 def predict(path2models, bt_size):
     logger.debug('Inference...')
 
@@ -138,7 +139,6 @@ def predict(path2models, bt_size):
     predictions = []
     ground_truths = []
     images = []
-    
     with th.no_grad():
         for X, Y in track(test_loader, description='Inference...'):            
             X = X.to(device)
@@ -147,12 +147,14 @@ def predict(path2models, bt_size):
             P = model(X)
             predictions.extend(th.argmax(P, dim=1).cpu().numpy())
             ground_truths.extend(Y.cpu().numpy())
-            images.extend(X.cpu().numpy())
+            images.extend(X.cpu())
 
     model.train()
     
-    display_images_with_predictions(path2metrics, images, predictions)
-    plot_confusion_matrix(path2metrics, ground_truths, predictions, list(range(10)))
+    classes = {0: 'Female', 1: 'Male'}
+    predictions_str = [classes[pred] for pred in predictions]
+    display_images_with_predictions(path2metrics, images, predictions_str)
+    plot_confusion_matrix(path2metrics, ground_truths, predictions, list(classes.keys()))
     
 if __name__ == '__main__':
     logger.info('...')
