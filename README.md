@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Python consits to use Efficientnet architecture to predict human gender using celebA database. The dataset is available <a href="https://www.kaggle.com/datasets/jessicali9530/celeba-dataset">here</a>.
+This Python project consits to use Efficientnet architecture to predict human gender using celebA database. The dataset is available <a href="https://www.kaggle.com/datasets/jessicali9530/celeba-dataset">here</a>.
 
 <p align="center">
   <img src="./metrics/inference_examples.png">
